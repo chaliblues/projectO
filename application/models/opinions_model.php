@@ -36,4 +36,25 @@ class Opinions_model extends CI_Model {
         return $this->db->insert('opinions', $data);
     }
 
+    public function add_vote($opinionID, $vote_type) {
+        $query = $this->db->get_where('opinions', array('opinionID' => $opinionID));
+        $opinion = $query->row_array();
+        
+        $data = array();
+        $this->load->helper('url');
+
+        if ($vote_type == 1) {
+            $data['agreeVotes'] = $opinion['agreeVotes'] + 1;
+        } else if ($vote_type == 2) {
+            $data['disagreeVotes'] = $opinion['disagreeVotes'] + 1;
+        } else if ($vote_type == 3) {
+            $data['helpfulVotes'] = $opinion['helpfulVotes'] + 1;
+        } else if ($vote_type == 4) {
+            $data['funnyVotes'] = $opinion['funnyVotes'] + 1;
+        }
+       
+        $this->db->where('opinionID', $opinionID);
+        $this->db->update('opinions', $data);
+    }
+
 }

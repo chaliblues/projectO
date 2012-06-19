@@ -39,10 +39,10 @@
 						</p>
     Add Your Vote :
 					        
-							<span class="label label-success"><i class="icon-thumbs-up icon-white"></i> Agree</span>
-							<span class="label label-important"><i class="icon-thumbs-down icon-white"></i> Disagree</span>
-							<span class="label label-info"><i class="icon-star-empty icon-white"></i> Helpful</span>
-							<span class="label label-inverse"><i class="icon-heart icon-white"></i> Funny</span>
+							<span class="label label-success agree_vote" id="agree_'.$opinionID.'" ><i class="icon-thumbs-up icon-white"></i> Agree</span>
+							<span class="label label-important disagree_vote" id="agree_'.$opinionID.'" ><i class="icon-thumbs-down icon-white opinion_vote"></i> Disagree</span>
+							<span class="label label-info helpful_vote" id="helpful_'.$opinionID.'"><i class="icon-star-empty icon-white"></i> Helpful</span>
+							<span class="label label-inverse funny_vote" id="funny_'.$opinionID.'"><i class="icon-heart icon-white"></i> Funny</span>
 							
 					</div>
 					<div class="clear"></div>

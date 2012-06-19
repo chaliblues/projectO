@@ -114,4 +114,13 @@
     </p>
 
 </div>
+
+<!--static dialog-->
+<div id="dialog-message-vote" title="Success">
+    <p>
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        You have successfully voted.
+    </p>
+
+</div>
 <!--end static dialog-->

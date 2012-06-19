@@ -70,14 +70,25 @@ class Home extends CI_Controller {
         // $output = '{ "subCategories": "'.$output.'"'; 
         echo $output;
     }
-    
+
     function add_opinion_review() {
         $this->opinion_reviews_model->add_opinion_review();
         $message = "Success";
         $output = '{ "message": "' . $message . '"}';
         echo $output;
     }
-    
+
+    function add_vote() {
+        if (isset($_POST['vote_type'])) {
+            $this->opinions_model->add_vote($_POST['opinion_id'], $_POST['vote_type']);
+            $message = "Success";
+        } else {
+            $message = "Failure";
+        }
+        $output = '{ "message": "' . $message . '"}';
+        echo $output;
+    }
+
     function get_opinion_reviews() {
         if (isset($_POST['opinionID']) and $_POST['opinionID'] != NULL) {
             $opinionID = $_POST['opinionID'];
@@ -91,7 +102,6 @@ class Home extends CI_Controller {
         // $output = '{ "subCategories": "'.$output.'"'; 
         echo $output;
     }
-
 
 }
 

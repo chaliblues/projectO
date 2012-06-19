@@ -41,7 +41,14 @@ $(function () {
     // Dialog
     $('#modal_cnt_add_opinion').dialog({
         autoOpen: false,
+        modal:true,
         width: 600,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#modal_cnt_add_opinion').dialog('close');
+            })
+        },
+
         buttons: {
             "Submit": function () {
                 var opinion_title=$("#opinion_title").val();
@@ -86,6 +93,8 @@ $(function () {
            
         }
     });
+  
+
     // Dialog Link
     $('#opinion_category').change(function () {
         var categoryID = $("#opinion_category").val();
@@ -132,7 +141,13 @@ $(function () {
     // Dialog
     $('#modal_review_opinion').dialog({
         autoOpen: false,
+        modal:true,
         width: 600,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#modal_review_opinion').dialog('close');
+            })
+        },
         buttons: {
             "Submit": function () {
                 var opinionID = $("#modal_review_opinion").data('opinionID');
@@ -205,7 +220,13 @@ $(function () {
     // Dialog
     $('#modal_view_comments').dialog({
         autoOpen: false,
+        modal:true,
         width: 600,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#modal_view_comments').dialog('close');
+            })
+        },
         buttons: {
             "Close": function () {
                 $(this).dialog("close");
@@ -213,10 +234,17 @@ $(function () {
         }
     });
     
+   
     // Dialog
     $('#modal_no_comments').dialog({
         autoOpen: false,
+        modal:true,
         width: 600,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#modal_no_comments').dialog('close');
+            })
+        },
         buttons: {
             "OK": function () {
                 $(this).dialog("close");
@@ -228,6 +256,11 @@ $(function () {
     $("#dialog-message").dialog({
         autoOpen: false,
         modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message').dialog('close');
+            })
+        },
         buttons: {
             "Add_Other": function () {
                 $(this).dialog("close");
@@ -242,6 +275,11 @@ $(function () {
     $("#dialog-message-comment").dialog({
         autoOpen: false,
         modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message-comment').dialog('close');
+            })
+        },
         buttons: {
             "OK": function () {
                 $('#modal_review_opinion').dialog('close');
@@ -250,6 +288,100 @@ $(function () {
         }
     });
     
+    $("#dialog-message-vote").dialog({
+        autoOpen: false,
+        modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message-vote').dialog('close');
+            })
+        },
+        buttons: {
+            "OK": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    
+    // Modal Link
+    $('.agree_vote').click(function () {
+        var vote_type = 1;
+        var opinionIDString = (this.id).split("_");
+        var opinionID = opinionIDString[1];
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/opinions/index.php/home/add_vote",
+            dataType: "json",
+            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+            cache:false,
+            success: 
+            function(data){
+                $('#dialog-message-vote').dialog('open');
+            }
+                   
+        });
+        
+    });
+    
+    // Modal Link
+    $('.disagree_vote').click(function () {
+        var vote_type = 2;
+        var opinionIDString = (this.id).split("_");
+        var opinionID = opinionIDString[1];
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/opinions/index.php/home/add_vote",
+            dataType: "json",
+            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+            cache:false,
+            success: 
+            function(data){
+                $('#dialog-message-vote').dialog('open');
+            }
+                   
+        });
+        
+    });
+    
+    // Modal Link
+    $('.helpful_vote').click(function () {
+        var vote_type = 3;
+        var opinionIDString = (this.id).split("_");
+        var opinionID = opinionIDString[1];
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/opinions/index.php/home/add_vote",
+            dataType: "json",
+            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+            cache:false,
+            success: 
+            function(data){
+                $('#dialog-message-vote').dialog('open');
+            }
+                   
+        });
+        
+    });
+    
+    // Modal Link
+    $('.funny_vote').click(function () {
+        var vote_type = 4;
+        var opinionIDString = (this.id).split("_");
+        var opinionID = opinionIDString[1];
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/opinions/index.php/home/add_vote",
+            dataType: "json",
+            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+            cache:false,
+            success: 
+            function(data){
+                $('#dialog-message-vote').dialog('open');
+            }
+                   
+        });
+        
+    });
     // Modal Link
     $('#modal_link').click(function () {
         $('#dialog-message').dialog('open');
@@ -476,4 +608,9 @@ $(function () {
     $("#repeat").buttonset();
 
 
+    
+});
+$("body").on("click",".ui-widget-overlay",function() {
+    alert("Hello");
+    $('#modal_cnt_add_opinion').dialog( "close" );
 });
