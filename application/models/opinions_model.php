@@ -7,11 +7,17 @@ class Opinions_model extends CI_Model {
 	}
     
     //Return latest opinions
-	public function get_latestOpinions()
+	public function get_latestOpinions($subCatID=NULL)
 	{
+		if($subCatID==NULL)
+		{
+			$query = $this->db->get('opinions');
+		    return $query->result_array();
+		}else{
+			$query = $this->db->get_where('opinions', array('opinionSubCategoryID	' => $subCatID));
+		    return $query->result_array();
+		}
 		
-		$query = $this->db->get('opinions');
-		return $query->result_array();
 	
 	}
 

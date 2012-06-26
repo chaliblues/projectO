@@ -1,5 +1,11 @@
 
-			
+			<?php
+                //Check if the user is logged in or not
+				if($this->session->userdata('logged_in')==TRUE)
+				{
+					redirect('/users/home/', 'refresh');
+				}
+			?>
 			<!-- main -->
 			<div id="main">
 			<h2 class="inner">Latest Opinions</h2>

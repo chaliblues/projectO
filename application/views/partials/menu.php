@@ -1,4 +1,4 @@
-	  <div class="navbar">
+	  <div class="navbar fixed-top">
       <div class="navbar-inner">
       <div class="container">
         <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
@@ -21,7 +21,7 @@
                     //Make sure that sub category belongs to this opinion category
                     if($opinionCategory['opinionCategoryID']==$opinionSubCategory['categoryID'])
                     {
-                      $subMenu.='<li><a href="#">'.$opinionSubCategory['subCategoryName'].'</a></li>';
+                      $subMenu.='<li><a href="'.site_url().'/opinions/listing/'.$opinionSubCategory['opinionSubCategoryID'].'">'.$opinionSubCategory['subCategoryName'].'</a></li>';
                     }
                   }
                   $menu.='
