@@ -78,18 +78,7 @@ $(function () {
     });
 
 
-    // Dialogs
-    $("#dialog-message").dialog({
-        autoOpen: false,
-        modal: true,
-        buttons: {
-            Ok: function () {
-                $(this).dialog("close");
-            }
-        }
-    });
-
-
+    
     // Remove focus from buttons
     $('.ui-dialog :button').blur();
 
