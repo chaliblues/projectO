@@ -11,10 +11,18 @@
         $opinionTitle = $opinion['opinionTitle'];
         //Get the userName
         $userName = get_userName($opinion['userID']);
+        
+        //Get the user
+  $user=get_user($opinion['userID']);
         //Get the subCategory Name
         $subCategory = get_subCategoryName($opinion['opinionSubCategoryID']);
         //Get the opinion Type
         $opinionType = get_opinionTypeName($opinion['opinionTypeID']);
+         $opinions.=
+  '<div class="blog-body">
+<h3><a href="'.site_url().'/users/profile/'.$user['userID'].'">'.ucfirst($user['userName']).'</a> posted <a href="#">'.$opinion['opinionTitle'].'</a> under <a href="'.site_url().'/opinions/listing/'.$opinion['opinionSubCategoryID'].'">'.$subCategory.'</a></h3>
+<img src="'.base_url().'public/images/starrs.png"/></div>';
+         
         $opinions.=
                 '<div class="blog-post">
 					<p class="blog-date"><span>14th</span><br />October<br/>' . $opinionType . '</p><br/>

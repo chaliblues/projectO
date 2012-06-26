@@ -6,7 +6,16 @@ class Opinions_model extends CI_Model {
         $this->load->database();
     }
 
-    //Return latest opinions
+
+	//Return opinion type
+	public function get_opinionType($id)
+	{
+		
+		$query = $this->db->get_where('opinionTypes', array('opinionTypeID' => $id));
+		return $query->row_array();
+	
+	}
+
     public function get_latestOpinions() {
         $query = $this->db->from('opinions');
         //$query = $this->db->get('opinions');
@@ -15,12 +24,7 @@ class Opinions_model extends CI_Model {
         return $query->result_array();
     }
 
-    //Return opinion type
-    public function get_opinionType($id) {
-
-        $query = $this->db->get_where('opinionTypes', array('opinionTypeID' => $id));
-        return $query->row_array();
-    }
+   
 
     public function add_opinion($userID) {
         $this->load->helper('url');
