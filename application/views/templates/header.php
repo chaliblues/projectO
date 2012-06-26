@@ -12,6 +12,11 @@
 	<script type="text/javascript" src="<?php echo base_url();?>public/js/bootstrap-dropdown.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>public/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>public/js/bootstrap.min.js"></script>
+        
+         <script language="javascript" src="<?php echo base_url(); ?>js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script language="javascript" src="<?php echo base_url(); ?>js/modals.js"></script>
+        <script language="javascript" src="<?php echo base_url(); ?>js/ajax_post.js"></script>
+        
 	<script type="text/javascript">
 		Cufon.replace('h1,h2,h3,h4,h5,#menu,#copy,.blog-date');
 	</script>
