@@ -8,6 +8,7 @@ class Home extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library('javascript');
+        $this->load->library('session');
         $this->load->model('opinionCategories_model');
         $this->load->model('opinionSubCategories_model');
         $this->load->model('opinions_model');
@@ -28,6 +29,9 @@ class Home extends CI_Controller {
         $data['opinionSubCategories'] = $this->opinionSubCategories_model->get_subCategories();
         $data['opinionsList'] = $this->opinions_model->get_latestOpinions();
         $data['opinionTypes'] = $this->opiniontypes_model->getOpinionTypes();
+        if (isset($this->session->userdata['userID'])) {
+            $data['userID'] = $this->session->userdata['userID'];
+        }
 
         $this->load->view('templates/header', $data);
         $this->load->view('home/home', $data);
@@ -51,8 +55,14 @@ class Home extends CI_Controller {
     }
 
     function add_opinion() {
-        $this->opinions_model->add_opinion();
-        $message = "Success";
+
+        if (isset($this->session->userdata['userID'])) {
+            $userID = $this->session->userdata['userID'];
+            $this->opinions_model->add_opinion($userID);
+            $message = "Success";
+        } else {
+            $message = "NOT_LOGGED_IN";
+        }
         $output = '{ "message": "' . $message . '"}';
         echo $output;
     }
@@ -72,16 +82,51 @@ class Home extends CI_Controller {
     }
 
     function add_opinion_review() {
-        $this->opinion_reviews_model->add_opinion_review();
+
+        if ($_POST['user_type'] == 1) {
+            if (!isset($_POST['user_id'])) {
+                $message = "Failure";
+                $output = '{ "message": "' . $message . '"}';
+                echo $output;
+                return;
+            }
+            $userID = $_POST['user_id'];
+            $this->opinion_reviews_model->add_opinion_review($userID);
+        } else {
+            if (!isset($_POST['name'])) {
+                $message = "Failure";
+                $output = '{ "message": "' . $message . '"}';
+                echo $output;
+                return;
+            }
+            $name = $_POST['name'];
+            $email = null;
+            if (isset($_POST['email'])) {
+                $email = $_POST['email'];
+            }
+            $this->opinion_reviews_model->add_opinion_review(null, $name, $email);
+        }
         $message = "Success";
         $output = '{ "message": "' . $message . '"}';
         echo $output;
     }
 
     function add_vote() {
+        $ip_addr = $this->input->ip_address();
+        $message = null;
         if (isset($_POST['vote_type'])) {
-            $this->opinions_model->add_vote($_POST['opinion_id'], $_POST['vote_type']);
-            $message = "Success";
+            $userID = null;
+            if (isset($this->session->userdata['userID'])) {
+                $userID = $this->session->userdata['userID'];
+            }
+            $status = $this->opinions_model->add_vote($_POST['vote_type'], $_POST['opinion_id'], $ip_addr, $userID);
+            if ($status == FALSE) {
+                $message = "Failure";
+            } else if ($status == "ALREADY_VOTED") {
+                $message = "ALREADY_VOTED";
+            } else {
+                $message = "Success";
+            }
         } else {
             $message = "Failure";
         }
