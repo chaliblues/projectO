@@ -8,7 +8,7 @@
   $opinions="";
   $data="";
   foreach ($opinionsList as $opinion) {
-<<<<<<< HEAD
+
   	//Get the user
   	$user=get_user($opinion['userID']);
   	//Get the subCategory Name
@@ -21,8 +21,7 @@
 
 					<div class="blog-body">
 						<h3><a href="'.site_url().'/users/profile/'.$user['userID'].'">'.ucfirst($user['userName']).'</a> posted <a href="#">'.$opinion['opinionTitle'].'</a> under <a href="'.site_url().'/opinions/listing/'.$opinion['opinionSubCategoryID'].'">'.$subCategory.'</a></h3>
-						<img src="'.base_url().'public/images/starrs.png"/>
-=======
+						<img src="'.base_url().'public/images/starrs.png"/>';
     $opinionID = $opinion['opinionID'];
     $opinionTitle = $opinion['opinionTitle'];
     //Get the userName
@@ -38,7 +37,6 @@
 					<div class="blog-body">
 						<h3><a href="#">' . $userName . '</a> posted <a href="#">' . $opinion['opinionTitle'] . '</a> under <a href="#">' . $subCategory . '</a></h3>
 						<img src="' . base_url() . 'public/images/starrs.png"/>
->>>>>>> 59e7b0df32feb6a7e1438077214e2985a406a510
 						&nbsp;
 						<span class="label">
 						Current Votes :: 

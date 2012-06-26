@@ -6,21 +6,6 @@ class Opinions_model extends CI_Model {
         $this->load->database();
     }
 
-    //Return latest opinions
-<<<<<<< HEAD
-	public function get_latestOpinions($subCatID=NULL)
-	{
-		if($subCatID==NULL)
-		{
-			$query = $this->db->get('opinions');
-		    return $query->result_array();
-		}else{
-			$query = $this->db->get_where('opinions', array('opinionSubCategoryID	' => $subCatID));
-		    return $query->result_array();
-		}
-		
-	
-	}
 
 	//Return opinion type
 	public function get_opinionType($id)
@@ -30,7 +15,7 @@ class Opinions_model extends CI_Model {
 		return $query->row_array();
 	
 	}
-=======
+
     public function get_latestOpinions() {
         $query = $this->db->from('opinions');
         //$query = $this->db->get('opinions');
@@ -39,12 +24,7 @@ class Opinions_model extends CI_Model {
         return $query->result_array();
     }
 
-    //Return opinion type
-    public function get_opinionType($id) {
-
-        $query = $this->db->get_where('opinionTypes', array('opinionTypeID' => $id));
-        return $query->row_array();
-    }
+   
 
     public function add_opinion() {
         $this->load->helper('url');
@@ -80,6 +60,5 @@ class Opinions_model extends CI_Model {
         $this->db->where('opinionID', $opinionID);
         $this->db->update('opinions', $data);
     }
->>>>>>> 59e7b0df32feb6a7e1438077214e2985a406a510
 
 }
