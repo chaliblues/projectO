@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/25/opinion/';
+$config['base_url']	= 'http://localhost/opinions/';
 
 /*
 |--------------------------------------------------------------------------

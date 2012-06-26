@@ -489,13 +489,13 @@ input.submit {
 #copy span { 
 	color: #999; 
 }
-#dialog_link,#modal_link {
+#dialog_link,#modal_link, #modal_add_opinion {
 	padding: .4em 1em .4em 20px;
 	text-decoration: none;
 	position: relative;
 }
 
-#dialog_link span.ui-icon, #modal_link span.ui-icon {
+#dialog_link span.ui-icon, #modal_link span.ui-icon, #modal_add_opinion span.ui-icon{
 	margin: 0 5px 0 0;
 	position: absolute;
 	left: .2em;
