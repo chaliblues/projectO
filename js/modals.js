@@ -123,7 +123,14 @@ $(function () {
     });
     // Dialog Link
     $('#modal_add_opinion').click(function () {
-        $('#modal_cnt_add_opinion').dialog('open');
+        var LOGGED_IN_STATUS  = "LOGGED_IN";
+        var login_status =  $("#login_status").val();
+        if(login_status == LOGGED_IN_STATUS){
+            $('#modal_cnt_add_opinion').dialog('open');
+        }
+        else{
+            $('#dialog-message-add-opinion-not-logged-in').dialog('open');
+        }
         return false;
     });
 
@@ -150,17 +157,42 @@ $(function () {
         },
         buttons: {
             "Submit": function () {
+                var extraString = "&user_type=";
+                var new_name_string = "";
+                var logged_in_user = "1";
+                var not_logged_in_user = "2";
+                var logged_in_user_label = "NOT_REQUIRED";
                 var opinionID = $("#modal_review_opinion").data('opinionID');
                 var comment = $("#comment").val();
+                var name =  $("#opinion_reviews_name").val();
                 if(!validateText(comment)){
                     $("#comment_status").html("Please enter a valid comment"); 
                     return false;
                 }
+               
+                if(!validateText(name)){                    
+                    $("#comment_status").html("Please enter a valid name"); 
+                    return false;
+                }
+                if(name == logged_in_user_label){
+                    var user_id =  $("#opinion_reviews_user_id").val();
+                    new_name_string = logged_in_user_label;
+                    if(user_id == null || user_id == ""){
+                        $("#comment_status").html("Error adding review"); 
+                        return false;
+                    }
+                    extraString+=logged_in_user+"&user_id="+user_id;
+                }
+                else{
+                    
+                    extraString+=not_logged_in_user+"&name="+name;
+                }
+                
                 $.ajax({
                     type: "POST",
                     url: "http://localhost/opinions/index.php/home/add_opinion_review",
                     dataType: "json",
-                    data: "opinion_id="+opinionID+"&opinion_review="+comment,
+                    data: "opinion_id="+opinionID+"&opinion_review="+comment+extraString,
                     cache:false,
                     success: 
                     function(data){
@@ -169,7 +201,8 @@ $(function () {
                     }
                    
                 });
-                $("#comment").val("");                    
+                $("#comment").val("");   
+                $("#opinion_reviews_name").val(new_name_string);
             
             }
         }
@@ -252,6 +285,52 @@ $(function () {
         }
     });
     
+    $("#dialog-message-add-opinion-not-logged-in").dialog({
+        autoOpen: false,
+        modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message-vote').dialog('close');
+            })
+        },
+        buttons: {
+            "OK": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    
+    $("#dialog-message-voting-failure").dialog({
+        autoOpen: false,
+        modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message-voting-failure').dialog('close');
+            })
+        },
+        buttons: {
+            "OK": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    
+    $("#dialog-message-already-voted").dialog({
+        autoOpen: false,
+        modal: true,
+        open: function(){
+            $('.ui-widget-overlay').bind('click',function(){
+                $('#dialog-message-already-voted').dialog('close');
+            })
+        },
+        buttons: {
+            "OK": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+    
+    
     // Dialogs
     $("#dialog-message").dialog({
         autoOpen: false,
@@ -303,6 +382,7 @@ $(function () {
         }
     });
     
+    
     // Modal Link
     $('.agree_vote').click(function () {
         var vote_type = 1;
@@ -316,113 +396,121 @@ $(function () {
             cache:false,
             success: 
             function(data){
-                $('#dialog-message-vote').dialog('open');
+                if(data.message == "ALREADY_VOTED"){
+                    $('#dialog-message-already-voted').dialog('open');
+                }
+                else if(data.message == "Failure"){
+                    $('#dialog-message-voting-failure').dialog('open');
+                }
+                else{
+                    $('#dialog-message-vote').dialog('open');
+                }
             }
                    
         });
         
     });
     
-    // Modal Link
-    $('.disagree_vote').click(function () {
-        var vote_type = 2;
-        var opinionIDString = (this.id).split("_");
-        var opinionID = opinionIDString[1];
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/opinions/index.php/home/add_vote",
-            dataType: "json",
-            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
-            cache:false,
-            success: 
-            function(data){
-                $('#dialog-message-vote').dialog('open');
-            }
+// Modal Link
+$('.disagree_vote').click(function () {
+    var vote_type = 2;
+    var opinionIDString = (this.id).split("_");
+    var opinionID = opinionIDString[1];
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/opinions/index.php/home/add_vote",
+        dataType: "json",
+        data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+        cache:false,
+        success: 
+        function(data){
+            $('#dialog-message-vote').dialog('open');
+        }
                    
-        });
-        
     });
+        
+});
     
-    // Modal Link
-    $('.helpful_vote').click(function () {
-        var vote_type = 3;
-        var opinionIDString = (this.id).split("_");
-        var opinionID = opinionIDString[1];
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/opinions/index.php/home/add_vote",
-            dataType: "json",
-            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
-            cache:false,
-            success: 
-            function(data){
-                $('#dialog-message-vote').dialog('open');
-            }
+// Modal Link
+$('.helpful_vote').click(function () {
+    var vote_type = 3;
+    var opinionIDString = (this.id).split("_");
+    var opinionID = opinionIDString[1];
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/opinions/index.php/home/add_vote",
+        dataType: "json",
+        data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+        cache:false,
+        success: 
+        function(data){
+            $('#dialog-message-vote').dialog('open');
+        }
                    
-        });
-        
     });
+        
+});
     
-    // Modal Link
-    $('.funny_vote').click(function () {
-        var vote_type = 4;
-        var opinionIDString = (this.id).split("_");
-        var opinionID = opinionIDString[1];
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/opinions/index.php/home/add_vote",
-            dataType: "json",
-            data: "opinion_id="+opinionID+"&vote_type="+vote_type,
-            cache:false,
-            success: 
-            function(data){
-                $('#dialog-message-vote').dialog('open');
-            }
+// Modal Link
+$('.funny_vote').click(function () {
+    var vote_type = 4;
+    var opinionIDString = (this.id).split("_");
+    var opinionID = opinionIDString[1];
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/opinions/index.php/home/add_vote",
+        dataType: "json",
+        data: "opinion_id="+opinionID+"&vote_type="+vote_type,
+        cache:false,
+        success: 
+        function(data){
+            $('#dialog-message-vote').dialog('open');
+        }
                    
-        });
+    });
         
-    });
-    // Modal Link
-    $('#modal_link').click(function () {
-        $('#dialog-message').dialog('open');
-        return false;
-    });
+});
+// Modal Link
+$('#modal_link').click(function () {
+    $('#dialog-message').dialog('open');
+    return false;
+});
 
-    // Datepicker
-    $('#datepicker').datepicker({
-        inline: true
-    });
+// Datepicker
+$('#datepicker').datepicker({
+    inline: true
+});
 
-    // Slider
-    $('#slider').slider({
-        range: true,
-        values: [17, 67]
-    });
+// Slider
+$('#slider').slider({
+    range: true,
+    values: [17, 67]
+});
 
-    // Progressbar
-    $("#progressbar").progressbar({
-        value: 20
-    });
+// Progressbar
+$("#progressbar").progressbar({
+    value: 20
+});
 
-    //hover states on the static widgets
-    $('#dialog_link, #modal_link, ul#icons li').hover(
+//hover states on the static widgets
+$('#dialog_link, #modal_link, ul#icons li').hover(
 
-        function () {
-            $(this).addClass('ui-state-hover');
-        }, function () {
-            $(this).removeClass('ui-state-hover');
-        });
-
-    // Autocomplete
-    var availableTags = ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala", "Scheme"];
-
-    $("#tags").autocomplete({
-        source: availableTags
+    function () {
+        $(this).addClass('ui-state-hover');
+    }, function () {
+        $(this).removeClass('ui-state-hover');
     });
 
+// Autocomplete
+var availableTags = ["ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala", "Scheme"];
 
-    // Remove focus from buttons
-    $('.ui-dialog :button').blur();
+$("#tags").autocomplete({
+    source: availableTags
+});
+
+
+// Remove focus from buttons
+$('.ui-dialog :button').blur();
 
 
 

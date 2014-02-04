@@ -72,7 +72,19 @@
 
         echo form_textarea($data);
         ?>
-
+        <?php
+        if (!isset($userID)) { 
+            ?>
+            <br/><br/>Name*<input type="text" name="opinion_reviews_name" id="opinion_reviews_name" value="" size="30" /><br/><br/>
+            <?php
+        } else {
+            ?>
+            <input type="hidden" name="opinion_reviews_name" id="opinion_reviews_name" value="NOT_REQUIRED"/>
+            <input type="hidden" name="opinion_reviews_user_id" id="opinion_reviews_user_id" value="<?php echo $userID; ?>" />
+           
+            <?php
+        }
+        ?>
     </form>
     <p>
     <div id="comment_status" name="comment_status"></div>
@@ -82,17 +94,17 @@
 <!--static dialog-->
 <div id="modal_view_comments" title="Opinions">
     <p>
-        <div id="opinion_reviews_title"></div>
-    </p>
-    <p>
-    <div id="opinion_reviews"></div>
-    </p>
+    <div id="opinion_reviews_title"></div>
+</p>
+<p>
+<div id="opinion_reviews"></div>
+</p>
 
 </div>
 
 <div id="modal_no_comments" title="No Comments">
     <p>
-    No comments for that opinion
+        No comments for that opinion
     </p>
 
 </div>
@@ -114,7 +126,14 @@
     </p>
 
 </div>
+<!--static dialog-->
+<div id="dialog-message-add-opinion-not-logged-in" title="Success">
+    <p>
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        You must be logged in to add an opinion
+    </p>
 
+</div>
 <!--static dialog-->
 <div id="dialog-message-vote" title="Success">
     <p>
@@ -124,3 +143,19 @@
 
 </div>
 <!--end static dialog-->
+
+<div id="dialog-message-already-voted" title="Success">
+    <p>
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        You had already voted
+    </p>
+
+</div>
+
+<div id="dialog-message-voting-failure" title="Success">
+    <p>
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        Error in voting
+    </p>
+
+</div>

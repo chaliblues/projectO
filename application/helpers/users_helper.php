@@ -5,7 +5,7 @@
 **/
 function get_userName($userID)
 {
-	//use as  
+//use as  
     $CI =& get_instance(); //first get instance
     $CI->load->model('users_model');  //then load model through instance.   
     //and calling a model function 
@@ -19,7 +19,7 @@ function get_userName($userID)
 **/
 function get_user($userID)
 {
-	//use as  
+//use as  
     $CI =& get_instance(); //first get instance
     $CI->load->model('users_model');  //then load model through instance.   
     //and calling a model function 
